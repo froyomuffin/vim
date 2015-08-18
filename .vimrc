@@ -17,7 +17,7 @@ Plugin 'valloric/youcompleteme'
 Plugin 'taglist.vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'
-Plugin 'vim-scripts/gtags.vim.git'
+Plugin 'gtags.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
