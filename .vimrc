@@ -17,6 +17,7 @@ Plugin 'valloric/youcompleteme'
 Plugin 'taglist.vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'
+Plugin 'vim-scripts/gtags.vim.git'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -45,12 +46,11 @@ let Tlist_WinWidth=30
 " NERD Tree & Taglist
 map <C-x> :NERDTreeToggle <bar> TlistToggle<CR>
 
-" CScope
-map <C-\> :cs find 3 <cword><CR>
-cs add cscope.out
-
-" CTags
-set tags=./tags,tags;$HOME
+" GTags
+map <C-]> :Gtags<CR><CR>
+map <C-]><C-]> :cclose<CR>
+map <C-\> :Gtags -r<CR><CR>
+map <C-\><C-\> :cclose<CR>
 
 " YCM
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
