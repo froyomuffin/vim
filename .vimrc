@@ -10,7 +10,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
 Plugin 'kien/ctrlp.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'valloric/youcompleteme'
@@ -18,6 +17,9 @@ Plugin 'taglist.vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'
 Plugin 'gtags.vim'
+Plugin 'rking/ag.vim'
+Plugin 'bling/vim-airline'
+Plugin 'tpope/vim-fugitive'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -64,6 +66,12 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ --ignore "**/*.pyc"
       \ -g ""'
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+
+" vim-airline
+set t_Co=256
+set laststatus=2
+let g:Powerline_symbols = 'fancy'
+let g:airline_powerline_fonts = 1
 
 " CPP
 let g:cpp_class_scope_highlight=1
