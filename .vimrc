@@ -89,3 +89,6 @@ set shiftwidth=4
 set expandtab
 set softtabstop=4
 filetype plugin indent on
+
+" Vim highlights
+highlight SpellBad ctermfg=0
