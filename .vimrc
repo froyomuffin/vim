@@ -78,7 +78,7 @@ let g:cpp_class_scope_highlight=1
 map <C-n><C-n> :e %<.cpp<CR>
 map <C-n> :e %<.h<CR>
 
-" General VIM
+" Vim
 syntax on
 set number
 set incsearch
@@ -88,6 +88,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set softtabstop=4
+set smartcase
 filetype plugin indent on
 
 " Vim highlights
