@@ -93,3 +93,4 @@ filetype plugin indent on
 
 " Vim highlights
 highlight SpellBad ctermfg=0
+highlight Search ctermfg=0
