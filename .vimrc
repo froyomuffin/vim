@@ -66,6 +66,8 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ --ignore "**/*.pyc"
       \ -g ""'
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_depth = 40
 
 " vim-airline
 set t_Co=256
