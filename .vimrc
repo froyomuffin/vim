@@ -91,6 +91,7 @@ set shiftwidth=4
 set expandtab
 set softtabstop=4
 set smartcase
+set backspace=2
 filetype plugin indent on
 
 " Vim highlights
