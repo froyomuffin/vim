@@ -9,11 +9,10 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'valloric/youcompleteme'
-Plugin 'taglist.vim'
+Plugin 'majutsushi/tagbar'
 Plugin 'rust-lang/rust.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'
 Plugin 'gtags.vim'
@@ -36,17 +35,8 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-" NERD Tree
-autocmd BufEnter * lcd %:p:h
-map <C-x><C-x> :NERDTreeFind<CR>
-let g:NERDTreeWinSize=30
-
-" Taglist
-let Tlist_Use_Right_Window=1
-let Tlist_WinWidth=30
-
-" NERD Tree & Taglist
-map <C-x> :NERDTreeToggle <bar> TlistToggle<CR>
+" Tagbar
+map <C-x> :TagbarToggle<CR>
 
 " GTags
 map <C-]> :Gtags<CR><CR>
@@ -97,3 +87,9 @@ filetype plugin indent on
 " Vim highlights
 highlight SpellBad ctermfg=0
 highlight Search ctermfg=0
+
+" More natural navigation in Vim
+imap <silent> <Down> <C-o>gj
+imap <silent> <Up> <C-o>gk
+nmap <silent> <Down> gj
+nmap <silent> <Up> gk
