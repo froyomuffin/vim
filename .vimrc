@@ -19,6 +19,10 @@ Plugin 'gtags.vim'
 Plugin 'rking/ag.vim'
 Plugin 'bling/vim-airline'
 Plugin 'tpope/vim-fugitive'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'eagletmt/neco-ghc'
+Plugin 'sdiehl/haskell-vim-proto'
+Plugin 'scrooloose/syntastic'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -83,6 +87,9 @@ set softtabstop=4
 set smartcase
 set backspace=2
 filetype plugin indent on
+
+" Ruby
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
 
 " Vim highlights
 highlight SpellBad ctermfg=0
