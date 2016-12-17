@@ -52,16 +52,19 @@ map <C-\><C-\> :cclose<CR>
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
 " CTRL-P
-let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
-      \ --ignore .git
-      \ --ignore .svn
-      \ --ignore .hg
-      \ --ignore .DS_Store
-      \ --ignore "**/*.pyc"
-      \ -g ""'
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_depth = 40
+if executable('ag')
+    " We don't need a cache with ag
+    let g:ctrlp_use_caching = 0
+    let g:ctrlp_clear_cache_on_exit = 0
+
+    " ag > grep
+    set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+    "let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+    let g:ctrlp_max_files = 0
+    let g:ctrlp_max_depth = 40
+endif
 
 " vim-airline
 set t_Co=256
