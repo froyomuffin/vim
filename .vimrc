@@ -1,85 +1,71 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Load vim-plug
+if empty(glob("~/.local/share/nvim/site/autoload/plug.vim"))
+    execute 'curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+endif
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin('~/.local/share/nvim/plugged')
+Plug 'majutsushi/tagbar'
+Plug 'bling/vim-airline'
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/syntastic'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-endwise'
+Plug 'vim-ruby/vim-ruby'
+Plug 'ervandew/supertab'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags'
+call plug#end()
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'valloric/youcompleteme'
-Plugin 'majutsushi/tagbar'
-Plugin 'rust-lang/rust.vim'
-Plugin 'FelikZ/ctrlp-py-matcher'
-Plugin 'gtags.vim'
-Plugin 'rking/ag.vim'
-Plugin 'bling/vim-airline'
-Plugin 'tpope/vim-fugitive'
-Plugin 'eagletmt/ghcmod-vim'
-Plugin 'eagletmt/neco-ghc'
-Plugin 'sdiehl/haskell-vim-proto'
-Plugin 'scrooloose/syntastic'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" Old plugins in need of review
+"Plugin 'octol/vim-cpp-enhanced-highlight'
+"Plugin 'valloric/youcompleteme'
+"Plugin 'majutsushi/tagbar'
+"Plugin 'rust-lang/rust.vim'
+"Plugin 'FelikZ/ctrlp-py-matcher'
+"Plugin 'gtags.vim'
+"Plugin 'rking/ag.vim'
+"Plugin 'bling/vim-airline'
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'eagletmt/ghcmod-vim'
+"Plugin 'eagletmt/neco-ghc'
+"Plugin 'sdiehl/haskell-vim-proto'
+"Plugin 'scrooloose/syntastic'
 
 " Tagbar
 map <C-x> :TagbarToggle<CR>
 
-" GTags
-map <C-]> :Gtags<CR><CR>
-map <C-]><C-]> :cclose<CR>
-map <C-\> :Gtags -r<CR><CR>
-map <C-\><C-\> :cclose<CR>
+" FZF
+map <C-p> :FZF<CR>
+map <C-p><C-p> :FZF 
 
-" YCM
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-
-" CTRL-P
-if executable('ag')
-    " We don't need a cache with ag
-    let g:ctrlp_use_caching = 0
-    let g:ctrlp_clear_cache_on_exit = 0
-
-    " ag > grep
-    set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-    "let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-    let g:ctrlp_max_files = 0
-    let g:ctrlp_max_depth = 40
-endif
+" More natural navigation in Vim
+imap <silent> <Down> <C-o>gj
+imap <silent> <Up> <C-o>gk
+nmap <silent> <Down> gj
+nmap <silent> <Up> gk
 
 " vim-airline
 set t_Co=256
 set laststatus=2
-let g:Powerline_symbols = 'fancy'
-let g:airline_powerline_fonts = 1
+" Disable the '>' so that we don't need patched fonts everywhere
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 
 " CPP
 let g:cpp_class_scope_highlight=1
 map <C-n><C-n> :e %<.cpp<CR>
 map <C-n> :e %<.h<CR>
 
+" Ruby
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
+
 " Vim
 syntax on
+set fillchars+=vert:│
 set number
+set relativenumber
 set incsearch
 set scrolloff=4
 set hlsearch
@@ -91,15 +77,12 @@ set smartcase
 set backspace=2
 filetype plugin indent on
 
-" Ruby
-autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
+" Ctags
+" Find tags recursively upwards until home
+set tags+=tags;~
+" Set easytags to use vim's tag
+let g:easytags_dynamic_files = 1
 
 " Vim highlights
 highlight SpellBad ctermfg=0
 highlight Search ctermfg=0
-
-" More natural navigation in Vim
-imap <silent> <Down> <C-o>gj
-imap <silent> <Up> <C-o>gk
-nmap <silent> <Down> gj
-nmap <silent> <Up> gk
