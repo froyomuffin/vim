@@ -96,8 +96,9 @@ imap <Tab> <C-x><C-]>
 imap <Tab><Tab> <C-x><C-p>
 
 " Searching
+map <C-_> :Ag 
 " Find all occurences via FZF Ag
-map <C-_> :Ag <C-r><C-w><CR>!tags 
+map <C-_><C-_> :Ag <C-r><C-w><CR>!tags 
 
 " Force bash here to speed up loading (issue with fish)
 set shell=/bin/bash
@@ -111,9 +112,11 @@ highlight Search ctermfg=0
 set tags+=tags;~
 
 " Easytags
+" Enable async
+let g:easytags_async = 1
 " Use vim's tag
 let g:easytags_dynamic_files = 1
-" Use python
-let g:easytags_python_enabled = 1
 " Ignore the global tag file by sending to /dev/null
-:let g:easytags_file = '/dev/null'
+let g:easytags_file = '/dev/null'
+" Disable the highlights (sync issues)
+let g:easytags_auto_highlight = 0
