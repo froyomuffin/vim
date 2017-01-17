@@ -8,7 +8,7 @@ Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/syntastic'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-endwise'
