@@ -8,6 +8,7 @@ Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/syntastic'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-rails'
@@ -46,6 +47,7 @@ map <C-n> :e %<.h<CR>
 
 " Ruby
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
+autocmd BufNewFile,BufRead *.mrb set syntax=ruby
 
 " Supertab
 " let g:SuperTabDefaultCompletionType = "context"
@@ -72,6 +74,10 @@ let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
       \ }
+nmap <silent> <C-Up> :wincmd k<CR>
+nmap <silent> <C-Down> :wincmd j<CR>
+nmap <silent> <C-Left> :wincmd h<CR>
+nmap <silent> <C-Right> :wincmd l<CR>
 
 " Vim
 syntax on
@@ -81,10 +87,10 @@ set relativenumber
 set incsearch
 set scrolloff=4
 set hlsearch
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
-set softtabstop=4
+set softtabstop=2
 set ignorecase
 set smartcase
 set backspace=2
