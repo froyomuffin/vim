@@ -114,6 +114,7 @@ highlight SpellBad ctermfg=0
 highlight Search ctermfg=0
 
 " Ctags
+nnoremap <C-]><C-]> g<C-]>
 " Find tags recursively upwards until home
 set tags+=tags;~
 
