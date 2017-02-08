@@ -80,6 +80,11 @@ nmap <silent> <C-Down> :wincmd j<CR>
 nmap <silent> <C-Left> :wincmd h<CR>
 nmap <silent> <C-Right> :wincmd l<CR>
 
+" Vim Indent Guides
+colorscheme default
+set background=dark
+let g:indent_guides_enable_on_vim_startup=1
+
 " Vim
 syntax on
 set fillchars+=vert:\ 
@@ -100,7 +105,6 @@ set timeoutlen=400
 set cursorline
 "hi CursorLine cterm=NONE ctermbg=black ctermfg=white guibg=darkred guifg=white
 hi CursorLine cterm=NONE ctermbg=black
-
 
 " Completion
 imap <Tab> <C-x><C-]>
