@@ -17,6 +17,7 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'dag/vim-fish'
+Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'ervandew/supertab'
 call plug#end()
 
@@ -96,6 +97,10 @@ set smartcase
 set backspace=2
 filetype plugin indent on
 set timeoutlen=400
+set cursorline
+"hi CursorLine cterm=NONE ctermbg=black ctermfg=white guibg=darkred guifg=white
+hi CursorLine cterm=NONE ctermbg=black
+
 
 " Completion
 imap <Tab> <C-x><C-]>
