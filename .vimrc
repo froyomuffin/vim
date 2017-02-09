@@ -21,6 +21,11 @@ Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'ervandew/supertab'
 call plug#end()
 
+" Vim Indent Guides
+"set background=dark
+"let g:indent_guides_enable_on_vim_startup=1
+"let g:indent_guides_guide_size=1
+
 " Tagbar
 map <C-x> :TagbarToggle<CR>
 
@@ -45,10 +50,6 @@ let g:airline_right_sep=''
 let g:cpp_class_scope_highlight=1
 map <C-n><C-n> :e %<.cpp<CR>
 map <C-n> :e %<.h<CR>
-
-" Ruby
-autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
-autocmd BufNewFile,BufRead *.mrb set syntax=ruby
 
 " Supertab
 " let g:SuperTabDefaultCompletionType = "context"
@@ -80,13 +81,10 @@ nmap <silent> <C-Down> :wincmd j<CR>
 nmap <silent> <C-Left> :wincmd h<CR>
 nmap <silent> <C-Right> :wincmd l<CR>
 
-" Vim Indent Guides
-colorscheme default
-set background=dark
-let g:indent_guides_enable_on_vim_startup=1
 
 " Vim
 syntax on
+set expandtab
 set fillchars+=vert:\ 
 set number
 set relativenumber
@@ -95,7 +93,6 @@ set scrolloff=4
 set hlsearch
 set tabstop=2
 set shiftwidth=2
-set expandtab
 set softtabstop=2
 set ignorecase
 set smartcase
@@ -105,6 +102,10 @@ set timeoutlen=400
 set cursorline
 "hi CursorLine cterm=NONE ctermbg=black ctermfg=white guibg=darkred guifg=white
 hi CursorLine cterm=NONE ctermbg=black
+
+" Ruby
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
+autocmd BufNewFile,BufRead *.mrb set syntax=ruby
 
 " Completion
 imap <Tab> <C-x><C-]>
