@@ -81,6 +81,17 @@ nmap <silent> <C-Down> :wincmd j<CR>
 nmap <silent> <C-Left> :wincmd h<CR>
 nmap <silent> <C-Right> :wincmd l<CR>
 
+set splitbelow
+set splitright
+
+" Autoload vimrc on change (not working)
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
+" Bind reloading vimrc until autoloading works
+map <C-\> :so $MYVIMRC <CR>
 
 " Vim
 syntax on
@@ -102,6 +113,13 @@ set timeoutlen=400
 set cursorline
 "hi CursorLine cterm=NONE ctermbg=black ctermfg=white guibg=darkred guifg=white
 hi CursorLine cterm=NONE ctermbg=black
+
+" Fast up and down
+map <S-Up> 5k
+map <S-Down> 5j
+
+" Clipboard
+set clipboard=unnamedplus
 
 " Ruby
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
