@@ -8,8 +8,8 @@ Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/syntastic'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
-"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-endwise'
@@ -18,13 +18,21 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'dag/vim-fish'
 Plug 'nathanaelkane/vim-indent-guides'
-" Plug 'ervandew/supertab'
+Plug 'djoshea/vim-autoread'
+Plug 'neomake/neomake' 
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 " Vim Indent Guides
 "set background=dark
 "let g:indent_guides_enable_on_vim_startup=1
 "let g:indent_guides_guide_size=1
+
+" Character limit bar
+set colorcolumn=120
+highlight ColorColumn ctermbg=black guibg=black
+highlight OverLength ctermfg=white guibg=black
+match OverLength /\%121v.*/
 
 " Tagbar
 map <C-x> :TagbarToggle<CR>
@@ -51,10 +59,6 @@ let g:cpp_class_scope_highlight=1
 map <C-n><C-n> :e %<.cpp<CR>
 map <C-n> :e %<.h<CR>
 
-" Supertab
-" let g:SuperTabDefaultCompletionType = "context"
-" let g:SuperTabDefaultCompletionType = "<c-x><c-]>"
-
 " FZF
 " Match theme
 let g:fzf_colors =
@@ -76,13 +80,11 @@ let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
       \ }
-nmap <silent> <C-Up> :wincmd k<CR>
-nmap <silent> <C-Down> :wincmd j<CR>
-nmap <silent> <C-Left> :wincmd h<CR>
-nmap <silent> <C-Right> :wincmd l<CR>
-
 set splitbelow
 set splitright
+
+highlight VertSplit cterm=none gui=none 
+set fillchars+=vert:│
 
 " Autoload vimrc on change (not working)
 augroup myvimrc
@@ -113,10 +115,34 @@ set timeoutlen=400
 set cursorline
 "hi CursorLine cterm=NONE ctermbg=black ctermfg=white guibg=darkred guifg=white
 hi CursorLine cterm=NONE ctermbg=black
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+" Neomake
+let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
+au BufWinEnter *.rb :let b:neomake_ruby_rubocop_exe =  system('PATH=$(pwd)/bin:$PATH && which rubocop | tr -d "\n"')
+au BufWinEnter,BufWritePost * Neomake
+
+highlight NeomakeErrorMsg ctermfg=227 ctermbg=237
+let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
+
+" Persistent undo
+if has('persistent_undo')
+  set undofile
+  set undodir=~/.vim/undo//
+endif
 
 " Fast up and down
 map <S-Up> 5k
 map <S-Down> 5j
+map <C-K> 5k
+map <C-J> 5j
+
+nmap <silent> <C-Up> :wincmd k<CR>
+nmap <silent> <C-Down> :wincmd j<CR>
+nmap <silent> <C-Left> :wincmd h<CR>
+nmap <silent> <C-Right> :wincmd l<CR>
 
 " Clipboard
 set clipboard=unnamedplus
@@ -128,6 +154,9 @@ autocmd BufNewFile,BufRead *.mrb set syntax=ruby
 " Completion
 imap <Tab> <C-x><C-]>
 imap <Tab><Tab> <C-x><C-p>
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
 
 " Searching
 map <C-_> :Ag 
