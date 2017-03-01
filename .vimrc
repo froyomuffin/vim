@@ -4,23 +4,23 @@ if empty(glob("~/.local/share/nvim/site/autoload/plug.vim"))
 endif
 
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'majutsushi/tagbar'
-Plug 'bling/vim-airline'
-Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/syntastic'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-airline'
+Plug 'dag/vim-fish'
+Plug 'djoshea/vim-autoread'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-endwise'
-Plug 'vim-ruby/vim-ruby'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags'
-Plug 'dag/vim-fish'
+Plug 'majutsushi/tagbar'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'djoshea/vim-autoread'
 Plug 'neomake/neomake' 
-Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
+Plug 'xolox/vim-easytags'
+Plug 'xolox/vim-misc'
 call plug#end()
 
 " Vim Indent Guides
@@ -36,6 +36,9 @@ match OverLength /\%121v.*/
 
 " Tagbar
 map <C-x> :TagbarToggle<CR>
+
+" GitGutter
+map <C-s> :GitGutterToggle<CR>
 
 " FZF
 map <C-p> :FZF<CR>
