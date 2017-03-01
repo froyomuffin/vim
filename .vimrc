@@ -184,3 +184,7 @@ let g:easytags_dynamic_files = 1
 let g:easytags_file = '/dev/null'
 " Disable the highlights (sync issues)
 let g:easytags_auto_highlight = 0
+let ctags_loc = '/usr/local/opt/ctags/bin/ctags'
+if filereadable(ctags_loc)
+  let g:easytags_cmd = ctags_loc
+endif
