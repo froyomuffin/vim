@@ -1,105 +1,193 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Load vim-plug
+if empty(glob("~/.local/share/nvim/site/autoload/plug.vim"))
+    execute 'curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+endif
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin('~/.local/share/nvim/plugged')
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'airblade/vim-gitgutter'
+Plug 'bling/vim-airline'
+Plug 'dag/vim-fish'
+Plug 'djoshea/vim-autoread'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
+Plug 'junegunn/fzf.vim'
+Plug 'majutsushi/tagbar'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neomake/neomake' 
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
+Plug 'xolox/vim-easytags'
+Plug 'xolox/vim-misc'
+call plug#end()
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'valloric/youcompleteme'
-Plugin 'majutsushi/tagbar'
-Plugin 'rust-lang/rust.vim'
-Plugin 'FelikZ/ctrlp-py-matcher'
-Plugin 'gtags.vim'
-Plugin 'rking/ag.vim'
-Plugin 'bling/vim-airline'
-Plugin 'tpope/vim-fugitive'
-Plugin 'eagletmt/ghcmod-vim'
-Plugin 'eagletmt/neco-ghc'
-Plugin 'sdiehl/haskell-vim-proto'
-Plugin 'scrooloose/syntastic'
+" Vim Indent Guides
+"set background=dark
+"let g:indent_guides_enable_on_vim_startup=1
+"let g:indent_guides_guide_size=1
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" Character limit bar
+set colorcolumn=120
+highlight ColorColumn ctermbg=black guibg=black
+highlight OverLength ctermfg=white guibg=black
+match OverLength /\%121v.*/
 
 " Tagbar
 map <C-x> :TagbarToggle<CR>
 
-" GTags
-map <C-]> :Gtags<CR><CR>
-map <C-]><C-]> :cclose<CR>
-map <C-\> :Gtags -r<CR><CR>
-map <C-\><C-\> :cclose<CR>
+" GitGutter
+map <C-s> :GitGutterToggle<CR>
 
-" YCM
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-
-" CTRL-P
-if executable('ag')
-    " We don't need a cache with ag
-    let g:ctrlp_use_caching = 0
-    let g:ctrlp_clear_cache_on_exit = 0
-
-    " ag > grep
-    set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-    "let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-    let g:ctrlp_max_files = 0
-    let g:ctrlp_max_depth = 40
-endif
-
-" vim-airline
-set t_Co=256
-set laststatus=2
-let g:Powerline_symbols = 'fancy'
-let g:airline_powerline_fonts = 1
-
-" CPP
-let g:cpp_class_scope_highlight=1
-map <C-n><C-n> :e %<.cpp<CR>
-map <C-n> :e %<.h<CR>
-
-" Vim
-syntax on
-set number
-set incsearch
-set scrolloff=4
-set hlsearch
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set softtabstop=4
-set smartcase
-set backspace=2
-filetype plugin indent on
-
-" Ruby
-autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
-
-" Vim highlights
-highlight SpellBad ctermfg=0
-highlight Search ctermfg=0
+" FZF
+map <C-p> :FZF<CR>
+map <C-p><C-p> :FZF 
 
 " More natural navigation in Vim
 imap <silent> <Down> <C-o>gj
 imap <silent> <Up> <C-o>gk
 nmap <silent> <Down> gj
 nmap <silent> <Up> gk
+
+" vim-airline
+set t_Co=256
+set laststatus=2
+" Disable the '>' so that we don't need patched fonts everywhere
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+
+" CPP
+let g:cpp_class_scope_highlight=1
+map <C-n><C-n> :e %<.cpp<CR>
+map <C-n> :e %<.h<CR>
+
+" FZF
+" Match theme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Splits
+let g:fzf_action = {
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
+set splitbelow
+set splitright
+
+highlight VertSplit cterm=none gui=none 
+set fillchars+=vert:│
+
+" Autoload vimrc on change (not working)
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
+" Bind reloading vimrc until autoloading works
+map <C-\> :so $MYVIMRC <CR>
+
+" Vim
+syntax on
+set expandtab
+set fillchars+=vert:\ 
+set number
+set relativenumber
+set incsearch
+set scrolloff=4
+set hlsearch
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set ignorecase
+set smartcase
+set backspace=2
+filetype plugin indent on
+set timeoutlen=400
+set cursorline
+"hi CursorLine cterm=NONE ctermbg=black ctermfg=white guibg=darkred guifg=white
+hi CursorLine cterm=NONE ctermbg=black
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+" Neomake
+let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
+au BufWinEnter *.rb :let b:neomake_ruby_rubocop_exe =  system('PATH=$(pwd)/bin:$PATH && which rubocop | tr -d "\n"')
+au BufWinEnter,BufWritePost * Neomake
+
+highlight NeomakeErrorMsg ctermfg=227 ctermbg=237
+let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
+
+" Persistent undo
+if has('persistent_undo')
+  set undofile
+  set undodir=~/.vim/undo//
+endif
+
+" Fast up and down
+map <S-Up> 5k
+map <S-Down> 5j
+map <C-K> 5k
+map <C-J> 5j
+
+nmap <silent> <C-Up> :wincmd k<CR>
+nmap <silent> <C-Down> :wincmd j<CR>
+nmap <silent> <C-Left> :wincmd h<CR>
+nmap <silent> <C-Right> :wincmd l<CR>
+
+" Clipboard
+set clipboard=unnamedplus
+
+" Ruby
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
+autocmd BufNewFile,BufRead *.mrb set syntax=ruby
+
+" Completion
+imap <Tab> <C-x><C-]>
+imap <Tab><Tab> <C-x><C-p>
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+
+" Searching
+map <C-_> :Ag 
+" Find all occurences via FZF Ag
+map <C-_><C-_> :Ag <C-r><C-w><CR>!tags 
+
+" Force bash here to speed up loading (issue with fish)
+set shell=/bin/bash
+
+" Vim highlights
+highlight SpellBad ctermfg=0
+highlight Search ctermfg=0
+
+" Ctags
+nnoremap <C-]><C-]> g<C-]>
+" Find tags recursively upwards until home
+set tags+=tags;~
+
+" Easytags
+" Enable async
+let g:easytags_async = 1
+" Use vim's tag
+let g:easytags_dynamic_files = 1
+" Ignore the global tag file by sending to /dev/null
+let g:easytags_file = '/dev/null'
+" Disable the highlights (sync issues)
+let g:easytags_auto_highlight = 0
+let ctags_loc = '/usr/local/opt/ctags/bin/ctags'
+if filereadable(ctags_loc)
+  let g:easytags_cmd = ctags_loc
+endif
