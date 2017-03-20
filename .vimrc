@@ -11,7 +11,6 @@ Plug 'dag/vim-fish'
 Plug 'djoshea/vim-autoread'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
-Plug 'majutsushi/tagbar'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neomake/neomake' 
 Plug 'scrooloose/syntastic'
@@ -19,6 +18,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
+Plug 'vim-scripts/taglist.vim'
 Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
 call plug#end()
@@ -34,8 +34,11 @@ highlight ColorColumn ctermbg=black guibg=black
 highlight OverLength ctermfg=white guibg=black
 match OverLength /\%121v.*/
 
-" Tagbar
-map <C-x> :TagbarToggle<CR>
+" Taglist
+let Tlist_Use_Right_Window = 1
+let Tlist_WinWidth = 50
+let Tlist_Inc_Winwidth = 1
+map <C-x> :TlistToggle<CR>
 
 " GitGutter
 map <C-s> :GitGutterToggle<CR>
@@ -89,7 +92,7 @@ set splitright
 highlight VertSplit cterm=none gui=none 
 set fillchars+=vert:│
 
-" Autoload vimrc on change (not working)
+" Autoload vimrc on change
 augroup myvimrc
   au!
   au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
@@ -121,6 +124,10 @@ hi CursorLine cterm=NONE ctermbg=black
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+" Leader
+let mapleader = ","
+nnoremap <leader>d dd
 
 " Neomake
 let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
@@ -155,8 +162,8 @@ autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
 autocmd BufNewFile,BufRead *.mrb set syntax=ruby
 
 " Completion
-imap <Tab> <C-x><C-]>
-imap <Tab><Tab> <C-x><C-p>
+"imap <Tab> <C-x><C-]>
+"imap <Tab><Tab> <C-x><C-p>
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
