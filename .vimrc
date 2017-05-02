@@ -18,6 +18,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
+Plug 'scrooloose/nerdcommenter'
 Plug 'vim-scripts/taglist.vim'
 Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
@@ -31,8 +32,8 @@ call plug#end()
 " Character limit bar
 set colorcolumn=120
 highlight ColorColumn ctermbg=black guibg=black
-highlight OverLength ctermfg=white guibg=black
-match OverLength /\%121v.*/
+"highlight OverLength ctermfg=white guibg=black
+"atch OverLength /\%121v.*/
 
 " Taglist
 let Tlist_Use_Right_Window = 1
@@ -88,6 +89,7 @@ let g:fzf_action = {
       \ }
 set splitbelow
 set splitright
+map <C-c><C-c> :q<CR>
 
 highlight VertSplit cterm=none gui=none 
 set fillchars+=vert:│
@@ -171,7 +173,7 @@ let g:deoplete#enable_at_startup = 1
 " Searching
 map <C-_> :Ag 
 " Find all occurences via FZF Ag
-map <C-_><C-_> :Ag <C-r><C-w><CR>!tags 
+map <C-_><C-_> :Ag <C-r><C-w><CR>!tags !test 
 
 " Force bash here to speed up loading (issue with fish)
 set shell=/bin/bash
@@ -198,3 +200,6 @@ let ctags_loc = '/usr/local/opt/ctags/bin/ctags'
 if filereadable(ctags_loc)
   let g:easytags_cmd = ctags_loc
 endif
+
+" Custom commands
+com! FormatJSON %!python -m json.tool
