@@ -121,6 +121,7 @@ hi CursorLine cterm=NONE ctermbg=black
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+map <C-c><C-c> :q<CR>
 
 " Neomake
 let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
