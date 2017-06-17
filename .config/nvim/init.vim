@@ -9,6 +9,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 Plug 'dag/vim-fish'
 Plug 'djoshea/vim-autoread'
+Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
@@ -31,8 +32,8 @@ call plug#end()
 " Character limit bar
 set colorcolumn=120
 highlight ColorColumn ctermbg=black guibg=black
-highlight OverLength ctermfg=white guibg=black
-match OverLength /\%121v.*/
+"highlight OverLength ctermfg=white guibg=black
+"match OverLength /\%121v.*/
 
 " Tagbar
 map <C-x> :TagbarToggle<CR>
@@ -114,14 +115,19 @@ set ignorecase
 set smartcase
 set backspace=2
 filetype plugin indent on
+set noswapfile
 set timeoutlen=400
 set cursorline
 "hi CursorLine cterm=NONE ctermbg=black ctermfg=white guibg=darkred guifg=white
 hi CursorLine cterm=NONE ctermbg=black
 set backupdir=~/.vim/backup//
-set directory=~/.vim/swap//
+set directory=~/.vim/wap//
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 map <C-c><C-c> :q<CR>
+set mouse=a
+
+" airline
+let g:airline_section_b = ''
 
 " Neomake
 let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
