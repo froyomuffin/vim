@@ -21,7 +21,6 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
-Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
 call plug#end()
 
@@ -180,22 +179,3 @@ set shell=/bin/bash
 " Vim highlights
 highlight SpellBad ctermfg=0
 highlight Search ctermfg=0
-
-" Ctags
-nnoremap <C-]><C-]> g<C-]>
-" Find tags recursively upwards until home
-set tags+=tags;~
-
-" Easytags
-" Enable async
-let g:easytags_async = 1
-" Use vim's tag
-let g:easytags_dynamic_files = 1
-" Ignore the global tag file by sending to /dev/null
-let g:easytags_file = '/dev/null'
-" Disable the highlights (sync issues)
-let g:easytags_auto_highlight = 0
-let ctags_loc = '/usr/local/opt/ctags/bin/ctags'
-if filereadable(ctags_loc)
-  let g:easytags_cmd = ctags_loc
-endif
