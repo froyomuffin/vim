@@ -168,10 +168,18 @@ imap <Tab><Tab> <C-x><C-p>
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
 
+" Rg
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
 " Searching
-map <C-_> :Ag 
-" Find all occurences via FZF Ag
-map <C-_><C-_> :Ag <C-r><C-w><CR>!tags 
+map <C-_> :Rg 
+" Find all occurences via FZF Rg
+map <C-_><C-_> :Rg <C-r><C-w><CR>!tags 
 
 " Force bash here to speed up loading (issue with fish)
 set shell=/bin/bash
