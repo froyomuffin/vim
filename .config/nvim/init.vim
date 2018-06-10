@@ -15,7 +15,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
 Plug 'keith/swift.vim'
 Plug 'leafgarland/typescript-vim'
-Plug 'majutsushi/tagbar'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neomake/neomake' 
@@ -38,9 +37,6 @@ set colorcolumn=120
 highlight ColorColumn ctermbg=black guibg=black
 "highlight OverLength ctermfg=white guibg=black
 "match OverLength /\%121v.*/
-
-" Tagbar
-map <C-x> :TagbarToggle<CR>
 
 " GitGutter
 map <C-s> :GitGutterToggle<CR>
@@ -129,6 +125,7 @@ set directory=~/.vim/wap//
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 map <C-c><C-c> :q<CR>
 set mouse=a
+set hidden
 
 " airline
 let g:airline_section_b = ''
@@ -191,3 +188,6 @@ set shell=/bin/bash
 " Vim highlights
 highlight SpellBad ctermfg=0
 highlight Search ctermfg=0
+
+" Buffer through FZF
+map <C-b> :Buffers<CR>
