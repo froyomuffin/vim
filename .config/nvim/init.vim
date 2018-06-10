@@ -10,6 +10,7 @@ Plug 'bling/vim-airline'
 Plug 'dag/vim-fish'
 Plug 'djoshea/vim-autoread'
 Plug 'elixir-editors/vim-elixir'
+Plug 'gcmt/taboo.vim'
 Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
@@ -31,6 +32,13 @@ call plug#end()
 "set background=dark
 "let g:indent_guides_enable_on_vim_startup=1
 "let g:indent_guides_guide_size=1
+
+" Leader setup
+set showcmd
+let mapleader = ","
+
+" Allow ; alone to speed up :
+nnoremap ; :
 
 " Character limit bar
 set colorcolumn=120
@@ -58,6 +66,12 @@ set laststatus=2
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 
+" Tab naviation
+map <leader><up> :tabr<cr>
+map <leader><down> :tabl<cr>
+map <leader><left> :tabp<cr>
+map <leader><right> :tabn<cr>
+
 " CPP
 let g:cpp_class_scope_highlight=1
 map <C-n><C-n> :e %<.cpp<CR>
@@ -82,7 +96,8 @@ let g:fzf_colors =
 " Splits
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
-      \ 'ctrl-v': 'vsplit'
+      \ 'ctrl-v': 'vsplit',
+      \ 'ctrl-t': 'tabedit'
       \ }
 set splitbelow
 set splitright
@@ -98,6 +113,8 @@ augroup END
 
 " Bind reloading vimrc until autoloading works
 map <C-\> :so $MYVIMRC <CR>
+nmap <leader>ev :e $MYVIMRC<CR>
+nmap <leader>sv :so $MYVIMRC<CR>
 
 " Vim
 syntax on
@@ -190,4 +207,8 @@ highlight SpellBad ctermfg=0
 highlight Search ctermfg=0
 
 " Buffer through FZF
-map <C-b> :Buffers<CR>
+map <C-b> :Buffers<CR> 
+
+" Tab
+map <leader>t :TabooOpen 
+map <leader>tt :TabooRename 
