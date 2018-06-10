@@ -16,6 +16,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
 Plug 'keith/swift.vim'
 Plug 'leafgarland/typescript-vim'
+Plug 'mklabs/split-term.vim'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neomake/neomake' 
@@ -67,10 +68,8 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 
 " Tab naviation
-map <leader><up> :tabr<cr>
-map <leader><down> :tabl<cr>
-map <leader><left> :tabp<cr>
-map <leader><right> :tabn<cr>
+map <leader>t<left> :tabp<cr>
+map <leader>t<right> :tabn<cr>
 
 " CPP
 let g:cpp_class_scope_highlight=1
@@ -212,3 +211,8 @@ map <C-b> :Buffers<CR>
 " Tab
 map <leader>t :TabooOpen 
 map <leader>tt :TabooRename 
+map <leader>tc :tabclose<CR>
+
+" Terminal setup
+map <leader>f :15Term fish<CR>
+tnoremap <Esc> <C-\><C-n>
