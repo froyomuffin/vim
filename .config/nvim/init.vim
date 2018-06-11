@@ -199,6 +199,7 @@ highlight Search ctermfg=0
 map <C-b> :Buffers<CR> 
 
 " Tab
+map <C-t> :tabn<CR>
 map <leader>t :TabooOpen 
 map <leader>tt :TabooRename 
 map <leader>tc :tabclose<CR>
