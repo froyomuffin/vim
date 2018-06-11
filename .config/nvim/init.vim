@@ -29,17 +29,45 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'xolox/vim-misc'
 call plug#end()
 
-" Vim Indent Guides
-"set background=dark
-"let g:indent_guides_enable_on_vim_startup=1
-"let g:indent_guides_guide_size=1
+" Vim General
+filetype plugin indent on
+hi CursorLine cterm=NONE ctermbg=black
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+map <C-c><C-c> :q<CR>
+set backspace=2
+set backupdir=~/.vim/backup//
+set cursorline
+set directory=~/.vim/wap//
+set expandtab
+set fillchars+=vert:\ 
+set hidden
+set hlsearch
+set ignorecase
+set incsearch
+set mouse=a
+set noswapfile
+set number
+set relativenumber
+set scrolloff=4
+set shiftwidth=2
+set smartcase
+set softtabstop=2
+set tabstop=2
+set timeoutlen=400
+syntax on
+
+" More natural navigation in Vim
+imap <silent> <Down> <C-o>gj
+imap <silent> <Up> <C-o>gk
+nmap <silent> <Down> gj
+nmap <silent> <Up> gk
+
+" Allow ; alone to speed up :
+nnoremap ; :
 
 " Leader setup
 set showcmd
 let mapleader = '\'
-
-" Allow ; alone to speed up :
-nnoremap ; :
 
 " Character limit bar
 set colorcolumn=120
@@ -54,30 +82,7 @@ map <C-s> :GitGutterToggle<CR>
 map <C-p> :FZF<CR>
 map <C-p><C-p> :FZF 
 
-" More natural navigation in Vim
-imap <silent> <Down> <C-o>gj
-imap <silent> <Up> <C-o>gk
-nmap <silent> <Down> gj
-nmap <silent> <Up> gk
-
-" vim-airline
-set t_Co=256
-set laststatus=2
-" Disable the '>' so that we don't need patched fonts everywhere
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-
-" Tab naviation
-map <leader>t<left> :tabp<cr>
-map <leader>t<right> :tabn<cr>
-
-" CPP
-let g:cpp_class_scope_highlight=1
-map <C-n><C-n> :e %<.cpp<CR>
-map <C-n> :e %<.h<CR>
-
-" FZF
-" Match theme
+" FZF - Match theme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
@@ -92,6 +97,23 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
+" vim-airline
+set t_Co=256
+set laststatus=2
+" vim-airline - Disable the '>' so that we don't need patched fonts everywhere
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_section_b = ''
+
+" Tab naviation
+map <leader>t<left> :tabp<cr>
+map <leader>t<right> :tabn<cr>
+
+" CPP
+let g:cpp_class_scope_highlight=1
+map <C-n><C-n> :e %<.cpp<CR>
+map <C-n> :e %<.h<CR>
+
 " Splits
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
@@ -101,7 +123,6 @@ let g:fzf_action = {
       \ }
 set splitbelow
 set splitright
-
 highlight VertSplit cterm=none gui=none 
 set fillchars+=vert:│
 
@@ -115,37 +136,6 @@ augroup END
 map <C-\> :so $MYVIMRC <CR>
 nmap <leader>ev :e $MYVIMRC<CR>
 nmap <leader>sv :so $MYVIMRC<CR>
-
-" Vim
-syntax on
-set expandtab
-set fillchars+=vert:\ 
-set number
-set relativenumber
-set incsearch
-set scrolloff=4
-set hlsearch
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set ignorecase
-set smartcase
-set backspace=2
-filetype plugin indent on
-set noswapfile
-set timeoutlen=400
-set cursorline
-"hi CursorLine cterm=NONE ctermbg=black ctermfg=white guibg=darkred guifg=white
-hi CursorLine cterm=NONE ctermbg=black
-set backupdir=~/.vim/backup//
-set directory=~/.vim/wap//
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-map <C-c><C-c> :q<CR>
-set mouse=a
-set hidden
-
-" airline
-let g:airline_section_b = ''
 
 " Neomake
 let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
@@ -166,7 +156,6 @@ map <S-Up> 5k
 map <S-Down> 5j
 map <C-K> 5k
 map <C-J> 5j
-
 nmap <silent> <C-Up> :wincmd k<CR>
 nmap <silent> <C-Down> :wincmd j<CR>
 nmap <silent> <C-Left> :wincmd h<CR>
