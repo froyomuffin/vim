@@ -36,7 +36,7 @@ call plug#end()
 
 " Leader setup
 set showcmd
-let mapleader = ","
+let mapleader = '\'
 
 " Allow ; alone to speed up :
 nnoremap ; :
@@ -96,7 +96,8 @@ let g:fzf_colors =
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit',
-      \ 'ctrl-t': 'tabedit'
+      \ 'ctrl-t': 'tabedit',
+      \ 'ctrl-x': 'bd'
       \ }
 set splitbelow
 set splitright
