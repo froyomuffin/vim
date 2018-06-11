@@ -11,6 +11,7 @@ Plug 'dag/vim-fish'
 Plug 'djoshea/vim-autoread'
 Plug 'elixir-editors/vim-elixir'
 Plug 'gcmt/taboo.vim'
+Plug 'flazz/vim-colorschemes'
 Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
@@ -22,6 +23,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neomake/neomake' 
 Plug 'scrooloose/syntastic'
 Plug 'slashmili/alchemist.vim'
+Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
@@ -133,9 +135,11 @@ augroup myvimrc
 augroup END
 
 " Bind reloading vimrc until autoloading works
-map <C-\> :so $MYVIMRC <CR>
 nmap <leader>ev :e $MYVIMRC<CR>
 nmap <leader>sv :so $MYVIMRC<CR>
+
+" airline
+let g:airline_section_b = ''
 
 " Neomake
 let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
