@@ -17,6 +17,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
 Plug 'keith/swift.vim'
 Plug 'leafgarland/typescript-vim'
+Plug 'matze/vim-move'
 Plug 'mklabs/split-term.vim'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -24,6 +25,7 @@ Plug 'neomake/neomake'
 Plug 'scrooloose/syntastic'
 Plug 'slashmili/alchemist.vim'
 Plug 'tmhedberg/SimpylFold'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
@@ -37,6 +39,7 @@ hi CursorLine cterm=NONE ctermbg=black
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 map <C-c><C-c> :q<CR>
 set backspace=2
+"set autochdir
 set backupdir=~/.vim/backup//
 set cursorline
 set directory=~/.vim/wap//
@@ -46,6 +49,7 @@ set hidden
 set hlsearch
 set ignorecase
 set incsearch
+set modifiable
 set mouse=a
 set noswapfile
 set number
@@ -211,3 +215,6 @@ map <leader>tc :tabclose<CR>
 " Terminal setup
 map <leader>f :15Term fish<CR>
 tnoremap <Esc> <C-\><C-n>
+
+" Commenting
+map <leader>c :Commentary<CR>
