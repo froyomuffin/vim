@@ -1,7 +1,13 @@
 " Load vim-plug
 if empty(glob("~/.local/share/nvim/site/autoload/plug.vim"))
-    execute 'curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    call system('curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
 endif
+
+" Set backupdir
+if empty(glob("~/.vim/backup"))
+    call system('mkdir -p ~/.vim/backup')
+endif
+set backupdir=~/.vim/backup//
 
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -24,7 +30,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neomake/neomake' 
 Plug 'scrooloose/syntastic'
 Plug 'slashmili/alchemist.vim'
-Plug 'tmhedberg/SimpylFold'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -40,7 +46,6 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 map <C-c><C-c> :q<CR>
 set backspace=2
 "set autochdir
-set backupdir=~/.vim/backup//
 set cursorline
 set directory=~/.vim/wap//
 set expandtab
@@ -86,7 +91,7 @@ map <C-s> :GitGutterToggle<CR>
 
 " FZF
 map <C-p> :FZF<CR>
-map <C-p><C-p> :FZF 
+"map <C-p><C-p> :FZF 
 
 " FZF - Match theme
 let g:fzf_colors =
@@ -114,11 +119,6 @@ let g:airline_section_b = ''
 " Tab naviation
 map <leader>t<left> :tabp<cr>
 map <leader>t<right> :tabn<cr>
-
-" CPP
-let g:cpp_class_scope_highlight=1
-map <C-n><C-n> :e %<.cpp<CR>
-map <C-n> :e %<.h<CR>
 
 " Splits
 let g:fzf_action = {
@@ -176,6 +176,10 @@ set clipboard=unnamedplus
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
 autocmd BufNewFile,BufRead *.mrb set syntax=ruby
 
+" Python
+autocmd FileType python setlocal shiftwidth=2 tabstop=2
+autocmd BufNewFile,BufRead *.mrb set syntax=python
+
 " Completion
 imap <Tab> <C-x><C-]>
 imap <Tab><Tab> <C-x><C-p>
@@ -195,6 +199,7 @@ command! -bang -nargs=* Rg
 map <C-_> :Rg 
 " Find all occurences via FZF Rg
 map <C-_><C-_> :Rg <C-r><C-w><CR>!tags 
+map <C-p><C-p> :Rg <CR>
 
 " Force bash here to speed up loading (issue with fish)
 set shell=/bin/bash
