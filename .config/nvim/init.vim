@@ -35,6 +35,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
+Plug 'tpope/vim-rhubarb'
 Plug 'vim-ruby/vim-ruby'
 Plug 'xolox/vim-misc'
 call plug#end()
@@ -223,3 +224,6 @@ tnoremap <Esc> <C-\><C-n>
 
 " Commenting
 map <leader>c :Commentary<CR>
+
+" Open git line in browser :)
+map <leader>g :,Gbrowse<CR>
