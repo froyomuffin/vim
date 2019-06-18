@@ -13,6 +13,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
+Plug 'chrisbra/colorizer'
 Plug 'dag/vim-fish'
 Plug 'djoshea/vim-autoread'
 Plug 'elixir-editors/vim-elixir'
@@ -177,6 +178,9 @@ set clipboard=unnamedplus
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
 autocmd BufNewFile,BufRead *.mrb set syntax=ruby
 
+" Ruby convert rocket hashes to 1.9
+command! ConvertHashes %s/:\(\w\+\)\s*=>\s*/\1: /g
+
 " Python
 autocmd FileType python setlocal shiftwidth=2 tabstop=2
 autocmd BufNewFile,BufRead *.mrb set syntax=python
@@ -227,3 +231,9 @@ map <leader>c :Commentary<CR>
 
 " Open git line in browser :)
 map <leader>g :,Gbrowse<CR>
+
+" Colorizing hexcodes for
+let g:colorizer_auto_filetype='css,html,conf'
+
+" Unhighlight
+map <leader>n :noh<CR>
