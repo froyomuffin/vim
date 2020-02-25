@@ -17,11 +17,13 @@ Plug 'chrisbra/colorizer'
 Plug 'dag/vim-fish'
 Plug 'djoshea/vim-autoread'
 Plug 'elixir-editors/vim-elixir'
-Plug 'gcmt/taboo.vim'
+Plug 'rorymckinley/vim-rubyhash'
 Plug 'flazz/vim-colorschemes'
+Plug 'gcmt/taboo.vim'
 Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
+Plug 'kchmck/vim-coffee-script'
 Plug 'keith/swift.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'matze/vim-move'
@@ -29,6 +31,8 @@ Plug 'mklabs/split-term.vim'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neomake/neomake' 
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'scrooloose/syntastic'
 Plug 'slashmili/alchemist.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -90,10 +94,6 @@ highlight ColorColumn ctermbg=black guibg=black
 
 " GitGutter
 map <C-s> :GitGutterToggle<CR>
-
-" FZF
-map <C-p> :FZF<CR>
-"map <C-p><C-p> :FZF 
 
 " FZF - Match theme
 let g:fzf_colors =
@@ -192,19 +192,39 @@ imap <Tab><Tab> <C-x><C-p>
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
 
-" Rg
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+" =========== Searching ===========
 
-" Searching
-map <C-_> :Rg 
+" Project Root
+function! s:find_git_root()
+    return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+" RG from Project Root
+command! -bang -nargs=* RRg
+  \ call fzf#vim#grep('rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),               
+  \ 1,                                                                                                              
+  \ fzf#vim#with_preview({'dir': s:find_git_root()}),                                             
+  \ <bang>0)
+
+" Search using RRG
+map <C-_> :RRg 
 " Find all occurences via FZF Rg
-map <C-_><C-_> :Rg <C-r><C-w><CR>!tags 
-map <C-p><C-p> :Rg <CR>
+map <C-_><C-_> :RRg <C-r><C-w><CR>!test
+
+" Files from Project Root sorted by proximity
+function! s:list_cmd()
+  let base = fnamemodify(expand('%'), ':h:.:S')
+  return base == '.' ? 'fd -t f' : printf('fd -t f | proximity-sort %s', expand('%'))
+endfunction
+
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
+  \                               'options': '--tiebreak=index'}, <bang>0)
+
+command! ProjectFiles execute 'Files' s:find_git_root()
+nnoremap <C-p> :ProjectFiles<CR>
+
+" =================================
 
 " Force bash here to speed up loading (issue with fish)
 set shell=/bin/bash
