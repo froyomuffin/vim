@@ -27,6 +27,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'keith/swift.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'matze/vim-move'
+Plug 'hardcoreplayers/oceanic-material'
 Plug 'mklabs/split-term.vim'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -174,6 +175,18 @@ nmap <silent> <C-Right> :wincmd l<CR>
 " Clipboard
 set clipboard=unnamedplus
 
+" Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg_
+nnoremap  <leader>y  "+y
+nnoremap  <leader>yy  "+yy
+
+" Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+
 " Ruby
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
 autocmd BufNewFile,BufRead *.mrb set syntax=ruby
@@ -257,3 +270,7 @@ let g:colorizer_auto_filetype='css,html,conf'
 
 " Unhighlight
 map <leader>n :noh<CR>
+
+" OceanIce Material Theme
+" set background=dark
+" colorscheme oceanic_material
