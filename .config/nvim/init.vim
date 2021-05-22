@@ -207,69 +207,82 @@ imap <Tab><Tab> <C-x><C-p>
 let g:deoplete#enable_at_startup = 1
 
 " =========== Searching ===========
-" Project Root
 function! s:find_project_root()
     return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 
-" Search History
-function! s:search_key_for(scope)
+" Search Helpers
+function! s:filter_key_for(scope)
   let md5_command = "echo '".s:find_project_root().a:scope."' | xargs | md5sum | awk '{ printf $1 }'"
   return system(md5_command)
 endfunction
 
-function! s:search_history_file_for(scope)
-  let search_history_dir = '~/.vim/search/'
-  return expand(search_history_dir).s:search_key_for(a:scope)
+function! s:filter_history_file_for(key)
+  let filter_history_dir = '~/.vim/search/'
+  let filter_history_file =  expand(filter_history_dir).a:key
+
+  return filter_history_file
 endfunction
 
-function! s:last_filter_for(query)
-  let last_filter_command = 'tail -1 '.s:search_history_file_for(a:query)
+function! s:last_filter_from(filter_history_file)
+  let last_filter_command = 'tail -1 '.a:filter_history_file
   return system(last_filter_command)
 endfunction
 
-" RG from Project Root
-command! -bang -nargs=* RRg
+" Search
+function! s:search(query)
+  let filter_key = s:filter_key_for(a:query)
+  let filter_history_file = s:filter_history_file_for(filter_key)
+  let last_filter_command = s:last_filter_from(filter_history_file)
+
   \ call fzf#vim#grep(
-  \   'rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),
+  \   'rg --column --no-heading --line-number --color=always '.shellescape(a:query),
   \   1,
   \   fzf#vim#with_preview({
   \     'dir': s:find_project_root(),
   \     'options':
-  \       '--history='.shellescape(s:search_history_file_for(<q-args>)).
+  \       '--history='.shellescape(filter_history_file).
   \      ' --history-size=10'.
-  \      ' --query='.shellescape(s:last_filter_for(<q-args>))
-  \   }),
-  \   <bang>0
+  \      ' --query='.shellescape(last_filter_command)
+  \   })
   \ )
-
-" Search using RRG
-map <C-_> :RRg 
-" Find all occurences via FZF Rg
-map <C-_><C-_> :RRg <C-r><C-w><CR>!test
-
-" Files from Project Root sorted by proximity
-function! s:list_cmd()
-  let base = fnamemodify(expand('%'), ':h:.:S')
-  return base == '.' ? 'fd -t f' : printf('fd -t f | proximity-sort %s', expand('%'))
 endfunction
 
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(
-  \  <q-args>,
-  \  {
-  \    'source': s:list_cmd(),
-  \    'options':
-  \      '--tiebreak=index'.
-  \     ' --history='.shellescape(s:search_history_file_for('file_search')).
-  \     ' --history-size=10'.
-  \     ' --query='.shellescape(s:last_filter_for('file_search'))
-  \  },
-  \  <bang>0
-  \)
+command! -bang -nargs=* Search
+      \ call s:search(<q-args>)
 
-command! ProjectFiles execute 'Files' s:find_project_root()
-nnoremap <C-p> :ProjectFiles<CR>
+" FileSearch
+function! s:file_search()
+  let project_root = s:find_project_root()
+  let filter_key = s:filter_key_for('file_search')
+  let filter_history_file = s:filter_history_file_for(filter_key)
+  let last_filter_command = s:last_filter_from(filter_history_file)
+
+  let base = fnamemodify(expand('%'), ':h:.:S')
+  let file_search_command = base == '.' ? 'fd -t f' : printf('fd -t f | proximity-sort %s', expand('%'))
+
+  \ call fzf#vim#files(
+  \   project_root,
+  \   {
+  \     'source': file_search_command,
+  \     'options':
+  \       '--tiebreak=index'.
+  \      ' --history='.shellescape(filter_history_file).
+  \      ' --history-size=10'.
+  \      ' --query='.shellescape(last_filter_command)
+  \   },
+  \ )
+endfunction
+
+command! -bang -nargs=? -complete=dir FileSearch
+      \ call s:file_search()
+
+" Bind Search
+map <C-_> :Search 
+map <C-_><C-_> :Search <C-r><C-w><CR> 
+
+" Bind FileSearch
+nnoremap <C-p> :FileSearch<CR>
 
 " =================================
 
