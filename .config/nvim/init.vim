@@ -142,8 +142,8 @@ augroup myvimrc
 augroup END
 
 " Bind reloading vimrc until autoloading works
-nmap <leader>ev :e $MYVIMRC<CR>
-nmap <leader>sv :so $MYVIMRC<CR>
+nmap <leader>e :e $MYVIMRC<CR>
+nmap <leader>l :so $MYVIMRC<CR>
 
 " airline
 let g:airline_section_b = ''
@@ -208,19 +208,19 @@ let g:deoplete#enable_at_startup = 1
 
 " =========== Searching ===========
 " Project Root
-function! s:find_git_root()
+function! s:find_project_root()
     return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 
 " Search History
-function! s:search_key_for(query)
-  let md5_command = "echo '".s:find_git_root().a:query."' | xargs | md5sum | awk '{ printf $1 }'"
+function! s:search_key_for(scope)
+  let md5_command = "echo '".s:find_project_root().a:scope."' | xargs | md5sum | awk '{ printf $1 }'"
   return system(md5_command)
 endfunction
 
-function! s:search_history_file_for(query)
+function! s:search_history_file_for(scope)
   let search_history_dir = '~/.vim/search/'
-  return expand(search_history_dir).s:search_key_for(a:query)
+  return expand(search_history_dir).s:search_key_for(a:scope)
 endfunction
 
 function! s:last_filter_for(query)
@@ -234,7 +234,7 @@ command! -bang -nargs=* RRg
   \   'rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),
   \   1,
   \   fzf#vim#with_preview({
-  \     'dir': s:find_git_root(),
+  \     'dir': s:find_project_root(),
   \     'options':
   \       '--history='.shellescape(s:search_history_file_for(<q-args>)).
   \      ' --history-size=10'.
@@ -255,10 +255,20 @@ function! s:list_cmd()
 endfunction
 
 command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
-  \                               'options': '--tiebreak=index'}, <bang>0)
+  \ call fzf#vim#files(
+  \  <q-args>,
+  \  {
+  \    'source': s:list_cmd(),
+  \    'options':
+  \      '--tiebreak=index'.
+  \     ' --history='.shellescape(s:search_history_file_for('file_search')).
+  \     ' --history-size=10'.
+  \     ' --query='.shellescape(s:last_filter_for('file_search'))
+  \  },
+  \  <bang>0
+  \)
 
-command! ProjectFiles execute 'Files' s:find_git_root()
+command! ProjectFiles execute 'Files' s:find_project_root()
 nnoremap <C-p> :ProjectFiles<CR>
 
 " =================================
