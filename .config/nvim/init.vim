@@ -149,7 +149,8 @@ nmap <leader>sv :so $MYVIMRC<CR>
 let g:airline_section_b = ''
 
 " Neomake
-let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
+"let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
+let g:neomake_ruby_enabled_makers = ["mri"]
 au BufWinEnter *.rb :let b:neomake_ruby_rubocop_exe =  system('PATH=$(pwd)/bin:$PATH && which rubocop | tr -d "\n"')
 au BufWinEnter,BufWritePost * Neomake
 
@@ -206,18 +207,34 @@ imap <Tab><Tab> <C-x><C-p>
 let g:deoplete#enable_at_startup = 1
 
 " =========== Searching ===========
-
 " Project Root
 function! s:find_git_root()
     return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 
+" Search History
+function! s:search_key_for(query)
+  let md5_command = "echo '".s:find_git_root().a:query."' | xargs | md5sum | awk '{ printf $1 }'"
+  return system(md5_command)
+endfunction
+
+function! s:search_history_file_for(query)
+  let search_history_dir = '~/.vim/search/'
+  return expand(search_history_dir).s:search_key_for(a:query)
+endfunction
+
 " RG from Project Root
 command! -bang -nargs=* RRg
-  \ call fzf#vim#grep('rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),               
-  \ 1,                                                                                                              
-  \ fzf#vim#with_preview({'dir': s:find_git_root()}),                                             
-  \ <bang>0)
+  \ call fzf#vim#grep(
+  \   'rg --column --no-heading --line-number --color=always '.shellescape(<q-args>),
+  \   1,
+  \   fzf#vim#with_preview({
+  \     'dir': s:find_git_root(),
+  \     'options':
+  \       '--history='.shellescape(s:search_history_file_for(<q-args>)).' --history-size=10'
+  \   }),
+  \   <bang>0
+  \ )
 
 " Search using RRG
 map <C-_> :RRg 
