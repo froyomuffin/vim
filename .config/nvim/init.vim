@@ -223,6 +223,11 @@ function! s:search_history_file_for(query)
   return expand(search_history_dir).s:search_key_for(a:query)
 endfunction
 
+function! s:last_filter_for(query)
+  let last_filter_command = 'tail -1 '.s:search_history_file_for(a:query)
+  return system(last_filter_command)
+endfunction
+
 " RG from Project Root
 command! -bang -nargs=* RRg
   \ call fzf#vim#grep(
@@ -231,7 +236,9 @@ command! -bang -nargs=* RRg
   \   fzf#vim#with_preview({
   \     'dir': s:find_git_root(),
   \     'options':
-  \       '--history='.shellescape(s:search_history_file_for(<q-args>)).' --history-size=10'
+  \       '--history='.shellescape(s:search_history_file_for(<q-args>)).
+  \      ' --history-size=10'.
+  \      ' --query='.shellescape(s:last_filter_for(<q-args>))
   \   }),
   \   <bang>0
   \ )
