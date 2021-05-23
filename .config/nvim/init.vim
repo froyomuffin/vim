@@ -231,6 +231,7 @@ endfunction
 
 " Search
 function! s:search(query)
+  let project_root = s:find_project_root()
   let filter_key = s:filter_key_for(a:query)
   let filter_history_file = s:filter_history_file_for(filter_key)
   let last_filter_command = s:last_filter_from(filter_history_file)
@@ -239,7 +240,7 @@ function! s:search(query)
   \   'rg --column --no-heading --line-number --color=always '.shellescape(a:query),
   \   1,
   \   fzf#vim#with_preview({
-  \     'dir': s:find_project_root(),
+  \     'dir': project_root,
   \     'options':
   \       '--history='.shellescape(filter_history_file).
   \      ' --history-size=10'.
@@ -259,7 +260,7 @@ function! s:file_search()
   let last_filter_command = s:last_filter_from(filter_history_file)
 
   let base = fnamemodify(expand('%'), ':h:.:S')
-  let file_search_command = base == '.' ? 'fd -t f' : printf('fd -t f | proximity-sort %s', expand('%'))
+  let file_search_command = base == '.' ? 'fd -t f' : 'fd -t f | proximity-sort '.expand('%')
 
   \ call fzf#vim#files(
   \   project_root,
@@ -274,7 +275,7 @@ function! s:file_search()
   \ )
 endfunction
 
-command! -bang -nargs=? -complete=dir FileSearch
+command! -bang -nargs=? FileSearch
       \ call s:file_search()
 
 " Bind Search
