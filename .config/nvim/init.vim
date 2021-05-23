@@ -245,7 +245,11 @@ function! s:build_prepopulated_filters(default_filters, use_filters_from_history
   let dedupe_command = "echo '".prepopulated_filters."' | tr ' ' '\n' | sort | uniq | xargs | tr -d '\n'"
   let prepopulated_filters = system(dedupe_command)
 
-  return prepopulated_filters
+  if (len(prepopulated_filters) == 0)
+    return prepopulated_filters
+  else
+    return prepopulated_filters.' '
+  endif
 endfunction
 
 " FileSearch
@@ -270,7 +274,7 @@ function! s:file_search(default_filters, use_filters_from_history)
   \       '--tiebreak=index'.
   \      ' --history='.shellescape(filter_history_file).
   \      ' --history-size=10'.
-  \      ' --query='.shellescape(prepopulated_filters.' ')
+  \      ' --query='.shellescape(prepopulated_filters)
   \   },
   \ )
 endfunction
@@ -300,7 +304,7 @@ function! s:search(query, default_filters, use_filters_from_history)
   \     'options':
   \       '--history='.shellescape(filter_history_file).
   \      ' --history-size=10'.
-  \      ' --query='.shellescape(prepopulated_filters.' ')
+  \      ' --query='.shellescape(prepopulated_filters)
   \   })
   \ )
 endfunction
