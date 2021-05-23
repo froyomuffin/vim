@@ -135,13 +135,7 @@ set splitright
 highlight VertSplit cterm=none gui=none 
 set fillchars+=vert:│
 
-" Autoload vimrc on change (not working)
-augroup myvimrc
-  au!
-  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-augroup END
-
-" Bind reloading vimrc until autoloading works
+" Bind reloading vimrc
 nmap <leader>e :e $MYVIMRC<CR>
 nmap <leader>l :so $MYVIMRC<CR>
 
