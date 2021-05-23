@@ -139,9 +139,6 @@ set fillchars+=vert:│
 nmap <leader>e :e $MYVIMRC<CR>
 nmap <leader>l :so $MYVIMRC<CR>
 
-" airline
-let g:airline_section_b = ''
-
 " Neomake
 "let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
 let g:neomake_ruby_enabled_makers = ["mri"]
