@@ -231,7 +231,7 @@ function! s:filter_history_file_for(key)
 endfunction
 
 function! s:last_filter_from(filter_history_file)
-  let last_filter_command = 'tail -1 '.a:filter_history_file
+  let last_filter_command = "tail -n1 ".a:filter_history_file." |  tr -d '\n'"
   return system(last_filter_command)
 endfunction
 
@@ -241,6 +241,9 @@ function! s:build_prepopulated_filters(default_filters, use_filters_from_history
   if (a:use_filters_from_history && filereadable(a:filter_history_file))
     let prepopulated_filters = prepopulated_filters.' '.s:last_filter_from(a:filter_history_file)
   endif
+
+  let dedupe_command = "echo '".prepopulated_filters."' | tr ' ' '\n' | sort | uniq | xargs | tr -d '\n'"
+  let prepopulated_filters = system(dedupe_command)
 
   return prepopulated_filters
 endfunction
@@ -267,7 +270,7 @@ function! s:file_search(default_filters, use_filters_from_history)
   \       '--tiebreak=index'.
   \      ' --history='.shellescape(filter_history_file).
   \      ' --history-size=10'.
-  \      ' --query='.shellescape(prepopulated_filters)
+  \      ' --query='.shellescape(prepopulated_filters.' ')
   \   },
   \ )
 endfunction
@@ -297,7 +300,7 @@ function! s:search(query, default_filters, use_filters_from_history)
   \     'options':
   \       '--history='.shellescape(filter_history_file).
   \      ' --history-size=10'.
-  \      ' --query='.shellescape(prepopulated_filters)
+  \      ' --query='.shellescape(prepopulated_filters.' ')
   \   })
   \ )
 endfunction
