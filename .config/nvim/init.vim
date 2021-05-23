@@ -273,6 +273,9 @@ function! s:file_search(default_filters, use_filters_from_history)
 endfunction
 
 command! -bang -nargs=? FileSearch
+      \ call s:file_search('', 0)
+
+command! -bang -nargs=? FileSearchH
       \ call s:file_search('', 1)
 
 " Search
@@ -302,12 +305,24 @@ endfunction
 command! -bang -nargs=* Search
       \ call s:search(<q-args>, '', 0)
 
+command! -bang -nargs=* SearchH
+      \ call s:search(<q-args>, '', 1)
+
 " Bind FileSearch
-nnoremap <C-p> :FileSearch<CR>
+map <C-p> :FileSearch<CR>
+map <leader>p :FileSearch<CR>
+map <leader><leader>p :FileSearchH<CR>
 
 " Bind Search
 map <C-_> :Search 
+map <leader>/ :Search 
+map <leader><leader>/ :SearchH 
+
+" Bind Search under cursor
 map <C-_><C-_> :Search <C-r><C-w><CR> 
+map <leader>// :Search <C-r><C-w><CR>
+map <leader><leader>// :SearchH <C-r><C-w><CR>
+
 
 " =================================
 
