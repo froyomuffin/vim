@@ -246,12 +246,13 @@ function! s:build_prepopulated_filters(default_filters, use_filters_from_history
   endif
 endfunction
 
+" Default filters
 function! s:get_default_filters()
   return @f
 endfunction
 
 function! s:echo_default_filters()
-  echom s:get_default_filters()
+  echom @f
 endfunction
 
 function! s:set_default_filters(filters)
@@ -263,6 +264,35 @@ command! -bang -nargs=? DefaultFilters
 
 command! -bang -nargs=* SetDefaultFilters
       \ call s:set_default_filters(<q-args>)
+
+" History toggle
+function! s:get_filter_history_enabled()
+  return @g
+endfunction
+
+function! s:filter_history_enabled()
+  if (@g)
+    echom "History Filter Enabled"
+  else
+    echom "History Filter Disabled"
+  endif
+endfunction
+
+function! s:toggle_filter_history()
+  if (len(@g) == 0)
+    let @g = 0
+  else
+    let @g = !@g
+  endif
+
+  call s:filter_history_enabled()
+endfunction
+
+command! -bang -nargs=? FilterHistoryEnabled
+      \ call s:filter_history_enabled()
+
+command! -bang -nargs=? ToggleFilterHistory
+      \ call s:toggle_filter_history()
 
 " FileSearch
 function! s:file_search(default_filters, use_filters_from_history)
@@ -292,10 +322,7 @@ function! s:file_search(default_filters, use_filters_from_history)
 endfunction
 
 command! -bang -nargs=? FileSearch
-      \ call s:file_search(s:get_default_filters(), 0)
-
-command! -bang -nargs=? FileSearchH
-      \ call s:file_search(s:get_default_filters(), 1)
+      \ call s:file_search(s:get_default_filters(), s:get_filter_history_enabled())
 
 " Search
 function! s:search(query, default_filters, use_filters_from_history)
@@ -322,34 +349,33 @@ function! s:search(query, default_filters, use_filters_from_history)
 endfunction
 
 command! -bang -nargs=* Search
-      \ call s:search(<q-args>, s:get_default_filters(), 0)
-
-command! -bang -nargs=* SearchH
-      \ call s:search(<q-args>, s:get_default_filters(), 1)
+      \ call s:search(<q-args>, s:get_default_filters(), s:get_filter_history_enabled())
 
 " Bind DefaultFilters
-map <leader>[ :DefaultFilters<CR>
+map <leader>] :DefaultFilters<CR>
 
 " Bind SetDefaultFilters
-map <leader>[[ :SetDefaultFilters 
+map <leader>]] :SetDefaultFilters 
+
+" Bind ToggleFilterHistory
+map <leader>[ :ToggleFilterHistory<CR>
 
 " Bind FileSearch
 map <C-p> :FileSearch<CR>
 map <leader>p :FileSearch<CR>
-map <leader><leader>p :FileSearchH<CR>
 
 " Bind Search
 map <C-_> :Search 
 map <leader>/ :Search 
-map <leader><leader>/ :SearchH 
 
 " Bind Search under cursor
 map <C-_><C-_> :Search <C-r><C-w><CR> 
 map <leader>// :Search <C-r><C-w><CR>
-map <leader><leader>// :SearchH <C-r><C-w><CR>
-
 
 " =================================
+
+" Quick repeat
+map <leader><leader><leader> @:
 
 " Force bash here to speed up loading (issue with fish)
 set shell=/bin/bash
