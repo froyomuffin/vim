@@ -229,35 +229,22 @@ function! s:last_filter_from(filter_history_file)
   return system(last_filter_command)
 endfunction
 
-" Search
-function! s:search(query)
-  let project_root = s:find_project_root()
-  let filter_key = s:filter_key_for(a:query)
-  let filter_history_file = s:filter_history_file_for(filter_key)
-  let last_filter_command = s:last_filter_from(filter_history_file)
+function! s:build_prepopulated_filters(default_filters, use_history, filter_history_file)
+  let prepopulated_filters = a:default_filters
 
-  \ call fzf#vim#grep(
-  \   'rg --column --no-heading --line-number --color=always '.shellescape(a:query),
-  \   1,
-  \   fzf#vim#with_preview({
-  \     'dir': project_root,
-  \     'options':
-  \       '--history='.shellescape(filter_history_file).
-  \      ' --history-size=10'.
-  \      ' --query='.shellescape(last_filter_command)
-  \   })
-  \ )
+  if (a:use_history && filereadable(a:filter_history_file))
+    let prepopulated_filters = prepopulated_filters.' '.s:last_filter_from(a:filter_history_file)
+  endif
+
+  return prepopulated_filters
 endfunction
 
-command! -bang -nargs=* Search
-      \ call s:search(<q-args>)
-
 " FileSearch
-function! s:file_search()
+function! s:file_search(...)
   let project_root = s:find_project_root()
   let filter_key = s:filter_key_for('file_search')
   let filter_history_file = s:filter_history_file_for(filter_key)
-  let last_filter_command = s:last_filter_from(filter_history_file)
+  let prepopulated_filters = s:build_prepopulated_filters('', 1, filter_history_file)
 
   let base = fnamemodify(expand('%'), ':h:.:S')
   let file_search_command = base == '.' ? 'fd -t f' : 'fd -t f | proximity-sort '.expand('%')
@@ -270,7 +257,7 @@ function! s:file_search()
   \       '--tiebreak=index'.
   \      ' --history='.shellescape(filter_history_file).
   \      ' --history-size=10'.
-  \      ' --query='.shellescape(last_filter_command)
+  \      ' --query='.shellescape(prepopulated_filters)
   \   },
   \ )
 endfunction
@@ -278,12 +265,36 @@ endfunction
 command! -bang -nargs=? FileSearch
       \ call s:file_search()
 
-" Bind Search
-map <C-_> :Search 
-map <C-_><C-_> :Search <C-r><C-w><CR> 
+" Search
+function! s:search(query, ...)
+  let project_root = s:find_project_root()
+  let filter_key = s:filter_key_for(a:query)
+  let filter_history_file = s:filter_history_file_for(filter_key)
+  let prepopulated_filters = s:build_prepopulated_filters('', 1, filter_history_file)
+
+  \ call fzf#vim#grep(
+  \   'rg --column --no-heading --line-number --color=always '.shellescape(a:query),
+  \   1,
+  \   fzf#vim#with_preview({
+  \     'dir': project_root,
+  \     'options':
+  \       '--history='.shellescape(filter_history_file).
+  \      ' --history-size=10'.
+  \      ' --query='.shellescape(prepopulated_filters)
+  \   })
+  \ )
+endfunction
+
+command! -bang -nargs=* Search
+      \ call s:search(<q-args>)
+
 
 " Bind FileSearch
 nnoremap <C-p> :FileSearch<CR>
+
+" Bind Search
+map <C-_> :Search 
+map <C-_><C-_> :Search <C-r><C-w><CR> 
 
 " =================================
 
