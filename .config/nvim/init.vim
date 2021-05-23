@@ -229,10 +229,10 @@ function! s:last_filter_from(filter_history_file)
   return system(last_filter_command)
 endfunction
 
-function! s:build_prepopulated_filters(default_filters, use_history, filter_history_file)
+function! s:build_prepopulated_filters(default_filters, use_filters_from_history, filter_history_file)
   let prepopulated_filters = a:default_filters
 
-  if (a:use_history && filereadable(a:filter_history_file))
+  if (a:use_filters_from_history && filereadable(a:filter_history_file))
     let prepopulated_filters = prepopulated_filters.' '.s:last_filter_from(a:filter_history_file)
   endif
 
@@ -240,13 +240,13 @@ function! s:build_prepopulated_filters(default_filters, use_history, filter_hist
 endfunction
 
 " FileSearch
-function! s:file_search(default_filters, use_history)
+function! s:file_search(default_filters, use_filters_from_history)
   let project_root = s:find_project_root()
   let filter_key = s:filter_key_for('file_search')
   let filter_history_file = s:filter_history_file_for(filter_key)
   let prepopulated_filters = s:build_prepopulated_filters(
         \  a:default_filters,
-        \  a:use_history,
+        \  a:use_filters_from_history,
         \  filter_history_file
         \)
 
@@ -270,13 +270,13 @@ command! -bang -nargs=? FileSearch
       \ call s:file_search('', 1)
 
 " Search
-function! s:search(query, default_filters, use_history)
+function! s:search(query, default_filters, use_filters_from_history)
   let project_root = s:find_project_root()
   let filter_key = s:filter_key_for(a:query)
   let filter_history_file = s:filter_history_file_for(filter_key)
   let prepopulated_filters = s:build_prepopulated_filters(
         \  a:default_filters,
-        \  a:use_history,
+        \  a:use_filters_from_history,
         \  filter_history_file
         \)
 
