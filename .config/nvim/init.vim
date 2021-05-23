@@ -207,13 +207,19 @@ imap <Tab><Tab> <C-x><C-p>
 let g:deoplete#enable_at_startup = 1
 
 " =========== Searching ===========
+" Set up search history directory
+if empty(glob("~/.vim/search"))
+    call system('mkdir -p ~/.vim/search')
+endif
+
 function! s:find_project_root()
     return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 
 " Search Helpers
 function! s:filter_key_for(scope)
-  let md5_command = "echo '".s:find_project_root().a:scope."' | xargs | md5sum | awk '{ printf $1 }'"
+  let md5bin = executable('md5sum') ? 'md5sum' : 'md5'
+  let md5_command = "echo '".s:find_project_root().a:scope."' | xargs | ".md5bin." | awk '{ printf $1 }'"
   return system(md5_command)
 endfunction
 
@@ -295,7 +301,6 @@ endfunction
 
 command! -bang -nargs=* Search
       \ call s:search(<q-args>, '', 0)
-
 
 " Bind FileSearch
 nnoremap <C-p> :FileSearch<CR>
