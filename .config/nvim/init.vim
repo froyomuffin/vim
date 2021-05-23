@@ -246,6 +246,24 @@ function! s:build_prepopulated_filters(default_filters, use_filters_from_history
   endif
 endfunction
 
+function! s:get_default_filters()
+  return @f
+endfunction
+
+function! s:echo_default_filters()
+  echom s:get_default_filters()
+endfunction
+
+function! s:set_default_filters(filters)
+  let @f = a:filters
+endfunction
+
+command! -bang -nargs=? DefaultFilters
+      \ call s:echo_default_filters()
+
+command! -bang -nargs=* SetDefaultFilters
+      \ call s:set_default_filters(<q-args>)
+
 " FileSearch
 function! s:file_search(default_filters, use_filters_from_history)
   let project_root = s:find_project_root()
@@ -274,10 +292,10 @@ function! s:file_search(default_filters, use_filters_from_history)
 endfunction
 
 command! -bang -nargs=? FileSearch
-      \ call s:file_search('', 0)
+      \ call s:file_search(s:get_default_filters(), 0)
 
 command! -bang -nargs=? FileSearchH
-      \ call s:file_search('', 1)
+      \ call s:file_search(s:get_default_filters(), 1)
 
 " Search
 function! s:search(query, default_filters, use_filters_from_history)
@@ -304,10 +322,16 @@ function! s:search(query, default_filters, use_filters_from_history)
 endfunction
 
 command! -bang -nargs=* Search
-      \ call s:search(<q-args>, '', 0)
+      \ call s:search(<q-args>, s:get_default_filters(), 0)
 
 command! -bang -nargs=* SearchH
-      \ call s:search(<q-args>, '', 1)
+      \ call s:search(<q-args>, s:get_default_filters(), 1)
+
+" Bind DefaultFilters
+map <leader>[ :DefaultFilters<CR>
+
+" Bind SetDefaultFilters
+map <leader>[[ :SetDefaultFilters 
 
 " Bind FileSearch
 map <C-p> :FileSearch<CR>
