@@ -249,7 +249,7 @@ function! s:get_default_filters()
 endfunction
 
 function! s:echo_default_filters()
-  echom @f
+  echom 'Default FZF Filters: '.@f
 endfunction
 
 function! s:set_default_filters(filters)
