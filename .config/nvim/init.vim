@@ -362,11 +362,11 @@ map <C-p> :FileSearch<CR>
 map <leader>p :FileSearch<CR>
 
 " Bind Search
-map <C-_> :Search 
+map <C-/> :Search 
 map <leader>/ :Search 
 
 " Bind Search under cursor
-map <C-_><C-_> :Search <C-r><C-w><CR> 
+map <C-/><C-/> :Search <C-r><C-w><CR> 
 map <leader>// :Search <C-r><C-w><CR>
 
 " =================================
@@ -398,7 +398,7 @@ tnoremap <Esc> <C-\><C-n>
 map <leader>c :Commentary<CR>
 
 " Open git line in browser :)
-map <leader>g :,Gbrowse<CR>
+map <leader>g :,GBrowse<CR>
 
 " Colorizing hexcodes for
 let g:colorizer_auto_filetype='css,html,conf'
