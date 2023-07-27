@@ -86,6 +86,7 @@ nnoremap ; :
 " Leader setup
 set showcmd
 let mapleader = '\'
+map ' <leader>
 
 " Character limit bar
 set colorcolumn=120
@@ -199,8 +200,10 @@ let g:deoplete#enable_at_startup = 1
 
 " =========== Searching ===========
 " Set up search history directory
-if empty(glob("~/.vim/search"))
-    call system('mkdir -p ~/.vim/search')
+let s:search_dir = "~/.vim/search"
+
+if empty(glob(s:search_dir))
+    call system('mkdir -p '.s:search_dir)
 endif
 
 function! s:find_project_root()
@@ -215,7 +218,7 @@ function! s:filter_key_for(scope)
 endfunction
 
 function! s:filter_history_file_for(key)
-  let filter_history_dir = '~/.vim/search/'
+  let filter_history_dir = s:search_dir.'/'
   let filter_history_file =  expand(filter_history_dir).a:key
 
   return filter_history_file
