@@ -203,11 +203,11 @@ let g:deoplete#enable_at_startup = 1
 let s:search_dir = "~/.vim/search"
 
 if empty(glob(s:search_dir))
-    call system('mkdir -p '.s:search_dir)
+  call system('mkdir -p '.s:search_dir)
 endif
 
 function! s:find_project_root()
-    return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 
 " Search Helpers
@@ -308,16 +308,28 @@ function! s:file_search(default_filters, use_filters_from_history)
   let base = fnamemodify(expand('%'), ':h:.:S')
   let file_search_command = base == '.' ? 'fd -t f' : 'fd -t f | proximity-sort '.expand('%')
 
+  " \ call fzf#vim#files(
+  " \   project_root,
+  " \   {
+  " \     'source': file_search_command,
+  " \     'options':
+  " \      ' --tiebreak=index'.
+  " \      ' --history='.shellescape(filter_history_file).
+  " \      ' --history-size=10'.
+  " \      ' --query='.shellescape(prepopulated_filters)
+  " \   },
+  " \ )
+
   \ call fzf#vim#files(
   \   project_root,
-  \   {
+  \   fzf#vim#with_preview({
   \     'source': file_search_command,
   \     'options':
-  \       '--tiebreak=index'.
-  \      ' --history='.shellescape(filter_history_file).
-  \      ' --history-size=10'.
-  \      ' --query='.shellescape(prepopulated_filters)
-  \   },
+  \        ' --tiebreak=index'.
+  \        ' --history='.shellescape(filter_history_file).
+  \        ' --history-size=10'.
+  \        ' --query='.shellescape(prepopulated_filters)
+  \   })
   \ )
 endfunction
 
@@ -334,14 +346,15 @@ function! s:search(query, default_filters, use_filters_from_history)
         \  a:use_filters_from_history,
         \  filter_history_file
         \)
+  let search_command = 'rg --column --no-heading --line-number --color=always '.shellescape('(?s)'.a:query)
 
   \ call fzf#vim#grep(
-  \   'rg --column --no-heading --line-number --color=always '.shellescape(a:query),
+  \   search_command,
   \   1,
   \   fzf#vim#with_preview({
   \     'dir': project_root,
   \     'options':
-  \       '--history='.shellescape(filter_history_file).
+  \      ' --history='.shellescape(filter_history_file).
   \      ' --history-size=10'.
   \      ' --query='.shellescape(prepopulated_filters)
   \   })
