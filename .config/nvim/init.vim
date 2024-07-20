@@ -354,9 +354,6 @@ map <leader>// :Search <C-r><C-w><CR>
 " Quick repeat
 map <leader><leader><leader> @:
 
-" Force bash here to speed up loading (issue with fish)
-set shell=/bin/bash
-
 " Vim highlights
 highlight SpellBad ctermfg=0
 highlight Search ctermfg=0
