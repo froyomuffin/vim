@@ -10,41 +10,19 @@ endif
 set backupdir=~/.vim/backup//
 
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 Plug 'chrisbra/colorizer'
-Plug 'dag/vim-fish'
 Plug 'djoshea/vim-autoread'
 Plug 'EdenEast/nightfox.nvim'
-Plug 'elixir-editors/vim-elixir'
-Plug 'rorymckinley/vim-rubyhash'
-Plug 'flazz/vim-colorschemes'
-Plug 'gcmt/taboo.vim'
-Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
-Plug 'kchmck/vim-coffee-script'
-Plug 'keith/swift.vim'
-Plug 'leafgarland/typescript-vim'
 Plug 'matze/vim-move'
-Plug 'hardcoreplayers/oceanic-material'
-Plug 'mklabs/split-term.vim'
-Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'neomake/neomake' 
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'scrooloose/syntastic'
-Plug 'slashmili/alchemist.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-rhubarb'
-Plug 'vim-ruby/vim-ruby'
-Plug 'xolox/vim-misc'
 call plug#end()
 
 " Vim General
@@ -141,15 +119,6 @@ set fillchars+=vert:│
 nmap <leader>e :e $MYVIMRC<CR>
 nmap <leader>l :so $MYVIMRC<CR>
 
-" Neomake
-"let g:neomake_ruby_enabled_makers = ["rubocop", "mri"]
-let g:neomake_ruby_enabled_makers = ["mri"]
-au BufWinEnter *.rb :let b:neomake_ruby_rubocop_exe =  system('PATH=$(pwd)/bin:$PATH && which rubocop | tr -d "\n"')
-au BufWinEnter,BufWritePost * Neomake
-
-highlight NeomakeErrorMsg ctermfg=227 ctermbg=237
-let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeErrorMsg'}
-
 " Persistent undo
 if has('persistent_undo')
   set undofile
@@ -185,9 +154,6 @@ vnoremap <leader>P "+P
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
 autocmd BufNewFile,BufRead *.mrb set syntax=ruby
 
-" Ruby convert rocket hashes to 1.9
-command! ConvertHashes %s/:\(\w\+\)\s*=>\s*/\1: /g
-
 " Python
 autocmd FileType python setlocal shiftwidth=2 tabstop=2
 autocmd BufNewFile,BufRead *.mrb set syntax=python
@@ -195,9 +161,6 @@ autocmd BufNewFile,BufRead *.mrb set syntax=python
 " Completion
 imap <Tab> <C-x><C-]>
 imap <Tab><Tab> <C-x><C-p>
-
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
 
 " =========== Searching ===========
 " Set up search history directory
@@ -406,10 +369,6 @@ map <C-t> :tabn<CR>
 map <leader>t :TabooOpen 
 map <leader>tt :TabooRename 
 map <leader>tc :tabclose<CR>
-
-" Terminal setup
-map <leader>f :15Term fish<CR>
-tnoremap <Esc> <C-\><C-n>
 
 " Commenting
 map <leader>c :Commentary<CR>
