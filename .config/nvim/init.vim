@@ -10,15 +10,17 @@ endif
 set backupdir=~/.vim/backup//
 
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'EdenEast/nightfox.nvim'
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 Plug 'chrisbra/colorizer'
 Plug 'djoshea/vim-autoread'
-Plug 'EdenEast/nightfox.nvim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
 Plug 'matze/vim-move'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
@@ -424,6 +426,29 @@ require('nightfox').setup({
   specs = {},
   groups = {},
 })
+
+-- Language servers
+require'lspconfig'.pyright.setup{}
+
+require'lspconfig'.rubocop.setup{}
+require'lspconfig'.ruby_lsp.setup{}
+require'lspconfig'.sorbet.setup{
+  cmd = { "srb", "tc", "--lsp", "--disable-watchman" }
+}
+vim.api.nvim_command("au BufRead,BufNewFile *.rbi setfiletype ruby")
+
+-- Highlighting
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "yaml", "ruby", "json", "liquid", "typescript"},
+  highlight = {
+    enable = true
+  }
+}
+
+vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gR", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true, silent = true })
+
 EOF
 
 colorscheme nightfox
