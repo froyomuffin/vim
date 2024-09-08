@@ -21,6 +21,7 @@ Plug 'matze/vim-move'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'ojroques/nvim-lspfuzzy'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
@@ -438,16 +439,20 @@ require'lspconfig'.sorbet.setup{
 vim.api.nvim_command("au BufRead,BufNewFile *.rbi setfiletype ruby")
 
 -- Highlighting
-require'nvim-treesitter.configs'.setup {
+require'nvim-treesitter.configs'.setup{
   ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "javascript", "yaml", "ruby", "json", "liquid", "typescript"},
   highlight = {
     enable = true
   }
 }
 
-vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gR", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true, silent = true })
+--vim.keymap.set("n", "gr", vim.lsp.buf.incoming_calls, { noremap = true, silent = true })
+vim.keymap.set("n", "gr", vim.lsp.buf.references, { noremap = true, silent = true })
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { noremap = true, silent = true })
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true })
+
+-- LSP and fzf
+require('lspfuzzy').setup {}
 
 EOF
 
