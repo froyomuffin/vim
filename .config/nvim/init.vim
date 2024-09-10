@@ -24,6 +24,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ojroques/nvim-lspfuzzy'
+Plug 'rmagatti/goto-preview'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
@@ -385,8 +386,9 @@ let g:colorizer_auto_filetype='css,html,conf'
 " Unhighlight
 map <leader>n :noh<CR>
 
-" Set Theme
 lua << EOF
+
+-- Set Theme
 require('nightfox').setup({
   options = {
     -- Compiled file's destination location
@@ -431,6 +433,10 @@ require('nightfox').setup({
   groups = {},
 })
 
+-- Split matching combo
+vim.keymap.set("n", "<C-v>", "<C-w>L<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-b>", "<C-w>J<CR>", { noremap = true, silent = true })
+
 -- Language servers
 require'lspconfig'.pyright.setup{}
 
@@ -450,12 +456,22 @@ require'nvim-treesitter.configs'.setup{
 }
 
 --vim.keymap.set("n", "gr", vim.lsp.buf.incoming_calls, { noremap = true, silent = true })
+vim.keymap.set("n", "gi", "<cmd>lua require('goto-preview').goto_preview_implementation()<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "GI", vim.lsp.buf.implementation, { noremap = true, silent = true })
+
+vim.keymap.set("n", "gd", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "GD", vim.lsp.buf.definition, { noremap = true, silent = true })
+
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { noremap = true, silent = true })
-vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { noremap = true, silent = true })
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true })
+
+-- Preview Popup
+require('goto-preview').setup {
+  width = 120,
+  height = 20,
+}
 
 -- LSP and fzf
--- require('lspfuzzy').setup {}
+require('lspfuzzy').setup {}
 
 EOF
 
