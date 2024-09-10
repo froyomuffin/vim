@@ -10,6 +10,8 @@ endif
 set backupdir=~/.vim/backup//
 
 call plug#begin('~/.local/share/nvim/plugged')
+" Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+" Plug 'nvim-tree/nvim-web-devicons'
 Plug 'EdenEast/nightfox.nvim'
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
@@ -26,6 +28,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 call plug#end()
 
 " Vim General
@@ -452,7 +455,7 @@ vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { noremap = true, silent =
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true })
 
 -- LSP and fzf
-require('lspfuzzy').setup {}
+-- require('lspfuzzy').setup {}
 
 EOF
 
