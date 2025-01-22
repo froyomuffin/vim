@@ -13,6 +13,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 " Plug 'nvim-tree/nvim-web-devicons'
 Plug 'EdenEast/nightfox.nvim'
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'airblade/vim-gitgutter'
 Plug 'bling/vim-airline'
 Plug 'chrisbra/colorizer'
@@ -20,8 +21,10 @@ Plug 'djoshea/vim-autoread'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
 Plug 'matze/vim-move'
+Plug 'nanozuki/tabby.nvim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ojroques/nvim-lspfuzzy'
 Plug 'rmagatti/goto-preview'
@@ -105,10 +108,6 @@ set laststatus=2
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_section_b = ''
-
-" Tab naviation
-map <leader>t<left> :tabp<cr>
-map <leader>t<right> :tabn<cr>
 
 " Splits
 let g:fzf_action = {
@@ -365,14 +364,8 @@ map <leader><leader><leader> @:
 highlight SpellBad ctermfg=0
 highlight Search ctermfg=0
 
-" Buffer through FZF
-map <C-b> :Buffers<CR> 
-
-" Tab
-map <C-t> :tabn<CR>
-map <leader>t :TabooOpen 
-map <leader>tt :TabooRename 
-map <leader>tc :tabclose<CR>
+" Buffer management
+map <leader>b :Buffers<CR>
 
 " Commenting
 map <leader>c :Commentary<CR>
@@ -472,6 +465,63 @@ require('goto-preview').setup {
 
 -- LSP and fzf
 require('lspfuzzy').setup {}
+
+-- Terminal
+vim.api.nvim_set_keymap("n", "<leader>x", ":ToggleTerm<CR>", { noremap = true })
+
+require("toggleterm").setup {
+  open_mapping = [[<c-x>]],
+}
+
+-- Tabs
+vim.o.showtabline = 2
+
+vim.api.nvim_set_keymap("n", "<C-t>", ":$tabnew<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>r", ":Tabby rename_tab ", { noremap = true })
+
+local theme = {
+  fill = 'TabLineFill',
+  -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
+  head = 'TabLine',
+  current_tab = 'TabLineSel',
+  tab = 'TabLine',
+  win = 'TabLine',
+  tail = 'TabLine',
+}
+require('tabby').setup({
+  line = function(line)
+    return {
+      {
+        line.sep(' ', theme.head, theme.fill),
+      },
+      line.tabs().foreach(function(tab)
+        local hl = tab.is_current() and theme.current_tab or theme.tab
+        return {
+          line.sep(' ', hl, theme.fill),
+          tab.number(),
+          tab.name(),
+          line.sep(' ', hl, theme.fill),
+          hl = hl,
+          margin = ' ',
+        }
+      end),
+      line.spacer(),
+      line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
+        return {
+          line.sep(' ', theme.win, theme.fill),
+          win.is_current() and '' or '',
+          win.buf_name(),
+          line.sep(' ', theme.win, theme.fill),
+          hl = theme.win,
+          margin = ' ',
+        }
+      end),
+      hl = theme.fill,
+    }
+  end,
+  -- option = {}, -- setup modules' option,
+})
 
 EOF
 
