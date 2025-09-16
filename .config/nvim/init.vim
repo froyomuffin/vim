@@ -487,7 +487,7 @@ local theme = {
   current_tab = 'TabLineSel',
   tab = 'TabLine',
   win = 'TabLine',
-  tail = 'TabLine',
+tail = 'TabLine',
 }
 require('tabby').setup({
   line = function(line)
